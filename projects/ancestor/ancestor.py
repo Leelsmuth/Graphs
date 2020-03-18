@@ -36,7 +36,7 @@ class Graph:
             raise IndexError("That vertex does not exist!")
 
     def get_neighbors(self, vertex_id):
-        """
+        """ 
         Get all neighbors (edges) of a vertex.
         """
         return self.vertices[vertex_id]
@@ -63,8 +63,11 @@ def bfs(graph, starting_vertex):
          if last_vert not in visited:
              visited.add(last_vert)
              for v in graph.vertices[last_vert]:
+                # make a copy of the path
                 path_copy = path[:]
                 path_copy.append(v)
+                
+                # enqueue the copied path
                 q.enqueue(path_copy)
                 if len(path_copy) > path_length:
                     earliest_an = path_copy
@@ -76,12 +79,14 @@ def bfs(graph, starting_vertex):
 
 
 def earliest_ancestor(ancestors, starting_node):
+  # build our graph
     graph = Graph()
+    
     for a in ancestors:
         # Add all vertices to graph
         graph.add_vertex(a[0])
         graph.add_vertex(a[1])
-    for a in ancestors:
+        
         # Create child to parent relationship 
         graph.add_edge(a[1], a[0])
     return bfs(graph, starting_node)
